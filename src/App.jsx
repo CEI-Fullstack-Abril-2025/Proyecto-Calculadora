@@ -14,38 +14,43 @@ const App = () => {
   const [result, setResult] = useState("0")
 
   const handleClick = (e) => {
-    const value = e.target.getAttribute("value")
-
+    const value = e.target.getAttribute("value");
+  
     switch (value) {
       case "DEL":
-
+        setResult(result.slice(0, -1) || "0");
         break;
-
+  
       case "+":
-
+        setResult((prev) => (prev === "0" ? "" : prev) + "+");
         break;
-
+  
       case "-":
-
+        setResult((prev) => (prev === "0" ? "" : prev) + "-");
         break;
-
+  
       case "/":
-
+        setResult((prev) => (prev === "0" ? "" : prev) + "/");
         break;
-
+  
       case "x":
-
+        setResult((prev) => (prev === "0" ? "" : prev) + "*");
         break;
-
+  
       case "RESET":
-
+        setResult("0");
         break;
-
+  
       case "=":
-
+        try {
+          setResult(eval(result.replace(/[^-()\d/*+.]/g, "")).toString());
+        } catch {
+          setResult("Error");
+        }
         break;
-
+  
       default:
+        setResult((prev) => (prev === "0" ? value : prev + value));
         break;
     }
   }
